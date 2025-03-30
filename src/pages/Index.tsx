@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import UnitConverter from '@/components/UnitConverter';
@@ -22,27 +21,11 @@ const Index = () => {
     <div className="min-h-screen bg-background cyberpunk-grid">
       <div className="container mx-auto px-4">
         <header className="pt-16 pb-8 text-center relative">
-          <div className="absolute top-6 left-0 right-0 flex justify-center z-10">
-            <a 
-              href="https://peerlist.io/saniyanande/project/css-unit-converter" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="hover:scale-110 transition-transform group relative"
-            >
-              <div className="absolute inset-0 bg-genz-gradient blur-lg opacity-40 rounded-xl group-hover:opacity-60 transition-opacity"></div>
-              <img 
-                src="/lovable-uploads/f8a22d95-bc84-419e-a8da-18f8062e2bf9.png" 
-                alt="Live on Peerlist Launchpad" 
-                className="h-16 relative"
-              />
-            </a>
-          </div>
-          
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-4 pt-20"
+            className="mb-4"
           >
             <div className="inline-block px-4 py-1.5 rounded-full bg-secondary text-foreground text-xs font-medium mb-3 border border-[#8c52ff33]">
               <span className="text-[#8c52ff] mr-2">✦</span>
