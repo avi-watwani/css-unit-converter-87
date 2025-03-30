@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import UnitConverter from '@/components/UnitConverter';
@@ -27,11 +28,6 @@ const Index = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mb-4"
           >
-            <div className="inline-block px-4 py-1.5 rounded-full bg-secondary text-foreground text-xs font-medium mb-3 border border-[#8c52ff33]">
-              <span className="text-[#8c52ff] mr-2">✦</span>
-              Dynamic Visualization
-              <span className="text-[#ef33ff] ml-2">✦</span>
-            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-3 neon-text">
               CSS Unit Converter
             </h1>
@@ -59,7 +55,7 @@ const Index = () => {
             transition={{ duration: 0.6, delay: 0.8 }}
             className="mt-16 mb-8 text-center"
           >
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-sm glassmorphism-subtle inline-block px-4 py-2 rounded-full">
               ✨ Made with precision and creativity ✨
             </p>
           </motion.div>
@@ -67,7 +63,7 @@ const Index = () => {
         
         <footer className="py-12 text-center">
           <motion.div 
-            className="flex justify-center space-x-6 mt-4"
+            className="flex flex-wrap justify-center space-x-6 mt-4"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.2 }}
@@ -76,7 +72,7 @@ const Index = () => {
               href="https://linkedin.com/in/saniyanande" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-[#8c52ff] transition-colors duration-200 flex items-center gap-1 text-sm"
+              className="text-muted-foreground hover:text-[#8c52ff] transition-colors duration-200 flex items-center gap-1 text-sm glassmorphism-subtle px-3 py-2 rounded-lg m-2"
             >
               <Linkedin size={18} />
               <span>LinkedIn</span>
@@ -85,7 +81,7 @@ const Index = () => {
               href="https://twitter.com/saniyanande" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-[#ef33ff] transition-colors duration-200 flex items-center gap-1 text-sm"
+              className="text-muted-foreground hover:text-[#ef33ff] transition-colors duration-200 flex items-center gap-1 text-sm glassmorphism-subtle px-3 py-2 rounded-lg m-2"
             >
               <Twitter size={18} />
               <span>Twitter</span>
@@ -94,7 +90,7 @@ const Index = () => {
               href="https://github.com/saniyanande" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-white transition-colors duration-200 flex items-center gap-1 text-sm"
+              className="text-muted-foreground hover:text-white transition-colors duration-200 flex items-center gap-1 text-sm glassmorphism-subtle px-3 py-2 rounded-lg m-2"
             >
               <Github size={18} />
               <span>GitHub</span>
@@ -103,7 +99,7 @@ const Index = () => {
               href="https://medium.com/@saniyanande" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-[#8c52ff] transition-colors duration-200 flex items-center gap-1 text-sm"
+              className="text-muted-foreground hover:text-[#8c52ff] transition-colors duration-200 flex items-center gap-1 text-sm glassmorphism-subtle px-3 py-2 rounded-lg m-2"
             >
               <FileText size={18} />
               <span>Medium</span>
@@ -114,7 +110,7 @@ const Index = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 1.4 }}
-            className="mt-4 text-xs text-muted-foreground/70"
+            className="mt-4 text-xs text-muted-foreground/70 glassmorphism-subtle inline-block px-4 py-2 rounded-full mt-6"
           >
             © {new Date().getFullYear()} Saniya Nande. All rights reserved.
           </motion.p>
