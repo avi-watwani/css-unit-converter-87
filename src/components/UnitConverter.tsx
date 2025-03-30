@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Info, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowRight, Info, ChevronDown, ChevronUp, CopyCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import AnimatedValue from './AnimatedValue';
 import PixelGrid from './PixelGrid';
@@ -53,30 +54,43 @@ const UnitConverter: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto py-8 px-4">
       <motion.div
-        className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden"
+        className="gradient-border rounded-2xl overflow-hidden bg-card shadow-xl"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white">
-          <h1 className="text-2xl font-semibold mb-2">CSS Unit Converter</h1>
-          <p className="text-blue-100">Convert between CSS units with real-time visualization</p>
+        <div className="bg-gradient-to-r from-[#8c52ff] to-[#ef33ff] p-6 text-white relative">
+          <div className="absolute inset-0 backdrop-blur-sm opacity-20"></div>
+          <div className="relative z-10">
+            <h1 className="text-2xl font-semibold mb-2">CSS Unit Converter</h1>
+            <p className="text-white/80">Convert between CSS units with real-time visualization</p>
+          </div>
         </div>
         
-        <div className="p-6 border-b border-gray-200 dark:border-gray-800">
-          <h2 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">What are you styling?</h2>
+        <div className="p-6 border-b border-[#ffffff11]">
+          <h2 className="text-sm font-medium text-muted-foreground mb-3">What are you styling?</h2>
           <div className="flex flex-wrap gap-2">
             {contexts.map((ctx) => (
               <button
                 key={ctx.value}
                 className={cn(
-                  "px-3 py-1.5 rounded-full text-sm transition-all",
+                  "px-3 py-1.5 rounded-full text-sm transition-all relative",
                   context === ctx.value
-                    ? "bg-primary text-white shadow-md"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                    ? "text-white"
+                    : "text-muted-foreground hover:text-white"
                 )}
                 onClick={() => setContext(ctx.value)}
               >
+                {context === ctx.value && (
+                  <motion.div
+                    layoutId="activeContext"
+                    className="absolute inset-0 bg-gradient-to-r from-[#8c52ff] to-[#ef33ff] rounded-full -z-10"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  />
+                )}
                 {ctx.label}
               </button>
             ))}
@@ -85,7 +99,7 @@ const UnitConverter: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
           <div className="space-y-4">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-foreground">
               Enter Value
             </label>
             
@@ -94,7 +108,7 @@ const UnitConverter: React.FC = () => {
                 type="number"
                 value={inputValue}
                 onChange={(e) => setInputValue(parseFloat(e.target.value) || 0)}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-3 rounded-lg border border-[#ffffff15] bg-secondary focus:outline-none focus:ring-2 focus:ring-[#8c52ff] placeholder-muted-foreground/50 text-foreground"
                 placeholder="Enter value"
               />
               
@@ -102,10 +116,10 @@ const UnitConverter: React.FC = () => {
                 <select
                   value={inputUnit}
                   onChange={(e) => setInputUnit(e.target.value as UnitType)}
-                  className="block w-20 pl-3 pr-8 py-1.5 text-base border-0 focus:outline-none focus:ring-0 bg-transparent"
+                  className="block w-20 pl-3 pr-8 py-1.5 text-base border-0 focus:outline-none focus:ring-0 bg-transparent text-foreground"
                 >
                   {availableUnits.map((unit) => (
-                    <option key={unit} value={unit}>
+                    <option key={unit} value={unit} className="bg-card text-foreground">
                       {unit}
                     </option>
                   ))}
@@ -116,7 +130,7 @@ const UnitConverter: React.FC = () => {
             <div className="flex items-center">
               <button
                 onClick={() => setShowVisualization(!showVisualization)}
-                className={`text-sm ${showVisualization ? 'text-primary' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+                className={`text-sm ${showVisualization ? 'text-[#8c52ff]' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 {showVisualization ? 'Hide Visualization' : 'Show Visualization'}
               </button>
@@ -124,7 +138,7 @@ const UnitConverter: React.FC = () => {
             
             <button
               onClick={() => setShowUnitInfo(inputUnit)}
-              className="inline-flex items-center text-sm text-primary hover:text-primary-dark"
+              className="inline-flex items-center text-sm text-[#8c52ff] hover:text-[#ef33ff]"
             >
               <Info className="h-4 w-4 mr-1" />
               <span>About {UNITS_INFO[inputUnit].name}</span>
@@ -132,17 +146,17 @@ const UnitConverter: React.FC = () => {
           </div>
           
           <div className="space-y-4">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-foreground">
               Converted Value
             </label>
             
             <div className="relative">
               <div className="flex items-center">
-                <div className="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
+                <div className="flex-1 px-4 py-3 rounded-lg border border-[#ffffff15] bg-secondary">
                   <AnimatedValue
                     value={outputValue}
                     unit={outputUnit}
-                    className="text-lg font-medium"
+                    className="text-lg font-medium text-foreground"
                   />
                 </div>
                 
@@ -155,10 +169,10 @@ const UnitConverter: React.FC = () => {
                 <select
                   value={outputUnit}
                   onChange={(e) => setOutputUnit(e.target.value as UnitType)}
-                  className="block w-20 pl-3 pr-8 py-1.5 text-base border-0 focus:outline-none focus:ring-0 bg-transparent"
+                  className="block w-20 pl-3 pr-8 py-1.5 text-base border-0 focus:outline-none focus:ring-0 bg-transparent text-foreground"
                 >
                   {availableUnits.map((unit) => (
-                    <option key={unit} value={unit}>
+                    <option key={unit} value={unit} className="bg-card text-foreground">
                       {unit}
                     </option>
                   ))}
@@ -166,14 +180,14 @@ const UnitConverter: React.FC = () => {
               </div>
             </div>
             
-            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-100 dark:border-blue-800">
-              <h3 className="text-sm font-medium text-blue-800 dark:text-blue-300 mb-2">Conversion</h3>
+            <div className="glassmorphism rounded-lg p-4">
+              <h3 className="text-sm font-medium text-[#8c52ff] mb-2">Conversion</h3>
               <div className="flex items-center justify-center space-x-3 text-sm">
-                <span className="font-mono bg-white dark:bg-gray-800 px-2 py-1 rounded border border-gray-200 dark:border-gray-700">
+                <span className="font-mono bg-secondary px-2 py-1 rounded border border-[#ffffff15] text-foreground">
                   {formatUnitValue(inputValue, inputUnit)}
                 </span>
-                <ArrowRight className="h-4 w-4 text-blue-500" />
-                <span className="font-mono bg-white dark:bg-gray-800 px-2 py-1 rounded border border-gray-200 dark:border-gray-700">
+                <ArrowRight className="h-4 w-4 text-[#ef33ff]" />
+                <span className="font-mono bg-secondary px-2 py-1 rounded border border-[#ffffff15] text-foreground">
                   {formatUnitValue(outputValue, outputUnit)}
                 </span>
               </div>
@@ -181,18 +195,18 @@ const UnitConverter: React.FC = () => {
             
             {suggestedUnit && suggestedUnit !== outputUnit && (
               <motion.div
-                className="unit-suggestion bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-100 dark:border-green-800"
+                className="unit-suggestion glassmorphism rounded-lg p-4"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 }}
               >
-                <h3 className="text-sm font-medium text-green-800 dark:text-green-300 mb-1">Suggested Unit</h3>
-                <p className="text-sm text-green-700 dark:text-green-400">
-                  For {context}, consider using <strong>{UNITS_INFO[suggestedUnit].name}</strong> ({suggestedUnit}).
+                <h3 className="text-sm font-medium text-[#8c52ff] mb-1">Suggested Unit</h3>
+                <p className="text-sm text-muted-foreground">
+                  For {context}, consider using <strong className="text-[#ef33ff]">{UNITS_INFO[suggestedUnit].name}</strong> ({suggestedUnit}).
                 </p>
                 <button
                   onClick={() => setOutputUnit(suggestedUnit)}
-                  className="mt-2 text-xs bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full transition-colors"
+                  className="mt-2 text-xs bg-gradient-to-r from-[#8c52ff] to-[#ef33ff] text-white px-3 py-1 rounded-full transition-colors"
                 >
                   Convert to {suggestedUnit}
                 </button>
@@ -201,7 +215,7 @@ const UnitConverter: React.FC = () => {
             
             <button
               onClick={() => setShowUnitInfo(outputUnit)}
-              className="inline-flex items-center text-sm text-primary hover:text-primary-dark"
+              className="inline-flex items-center text-sm text-[#8c52ff] hover:text-[#ef33ff]"
             >
               <Info className="h-4 w-4 mr-1" />
               <span>About {UNITS_INFO[outputUnit].name}</span>
@@ -212,7 +226,7 @@ const UnitConverter: React.FC = () => {
         <AnimatePresence>
           {showVisualization && (
             <motion.div 
-              className="p-6 border-t border-gray-200 dark:border-gray-800"
+              className="p-6 border-t border-[#ffffff11]"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
@@ -236,16 +250,16 @@ const UnitConverter: React.FC = () => {
           )}
         </AnimatePresence>
         
-        <div className="p-6 border-t border-gray-200 dark:border-gray-800">
+        <div className="p-6 border-t border-[#ffffff11]">
           <button
             onClick={() => setShowConversionTable(!showConversionTable)}
-            className="flex items-center justify-between w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="flex items-center justify-between w-full px-4 py-3 glassmorphism rounded-lg hover:bg-secondary/80 transition-colors"
           >
-            <span className="font-medium">CSS Unit Conversion Tables Reference</span>
+            <span className="font-medium text-foreground">CSS Unit Conversion Tables Reference</span>
             {showConversionTable ? (
-              <ChevronUp className="h-5 w-5 text-gray-500" />
+              <ChevronUp className="h-5 w-5 text-[#8c52ff]" />
             ) : (
-              <ChevronDown className="h-5 w-5 text-gray-500" />
+              <ChevronDown className="h-5 w-5 text-[#8c52ff]" />
             )}
           </button>
           
@@ -258,7 +272,7 @@ const UnitConverter: React.FC = () => {
                 transition={{ duration: 0.3 }}
                 className="mt-4 overflow-hidden"
               >
-                <UnitConversionTable className="bg-white dark:bg-gray-850 rounded-lg p-4" />
+                <UnitConversionTable className="glassmorphism rounded-lg p-4" />
               </motion.div>
             )}
           </AnimatePresence>
@@ -268,7 +282,7 @@ const UnitConverter: React.FC = () => {
       <AnimatePresence>
         {showUnitInfo && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -286,7 +300,7 @@ const UnitConverter: React.FC = () => {
               <div className="mt-3 flex justify-end">
                 <button
                   onClick={() => setShowUnitInfo(null)}
-                  className="text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-full transition-colors"
+                  className="text-sm bg-secondary hover:bg-secondary/80 text-foreground px-4 py-2 rounded-full transition-colors"
                 >
                   Close
                 </button>
